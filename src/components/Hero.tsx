@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { ArrowRight, Heart, Users, Stethoscope, ChevronLeft, ChevronRight } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroCommunity from "@/assets/hero-community.jpeg";
 import outreach1 from "@/assets/blog/outreach-1.jpeg";
 import accraGirls from "@/assets/blog/accra-girls.jpg";
 
 const slides = [
   {
-    image: heroBg,
+    image: heroCommunity,
     badge: "Non-Profit Healthcare Organization",
     headline: "Bringing Quality",
     highlight: "Healthcare",
