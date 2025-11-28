@@ -1,1 +1,7 @@
 project_id = "epovugflrajgaikfwdgq"
+
+[functions.paystack-webhook]
+verify_jwt = false
+
+[functions.create-subscription]
+verify_jwt = false
