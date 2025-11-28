@@ -8,11 +8,13 @@ import {
   MapPin,
   Heart,
 } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const quickLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
   { label: "Our Services", href: "#services" },
+  { label: "Gallery", href: "#gallery" },
   { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
@@ -41,10 +43,12 @@ export const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* About Column */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-                V
-              </div>
+            <div className="flex items-center gap-3 mb-6">
+              <img
+                src={logo}
+                alt="Viva Health Medical Foundation Logo"
+                className="h-12 w-auto object-contain bg-background rounded-lg p-1"
+              />
               <span className="font-bold text-xl">Viva Health</span>
             </div>
             <p className="text-background/70 mb-6 leading-relaxed">

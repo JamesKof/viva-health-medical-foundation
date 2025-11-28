@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -28,6 +29,7 @@ const navItems = [
       { label: "Publicity", href: "#volunteer" },
     ],
   },
+  { label: "Gallery", href: "#gallery" },
   { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
@@ -57,9 +59,11 @@ export const Navbar = () => {
       <div className="flex items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <a href="#home" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-            V
-          </div>
+          <img
+            src={logo}
+            alt="Viva Health Medical Foundation Logo"
+            className="h-10 w-auto object-contain"
+          />
           <span className={`font-bold text-lg tracking-tight hidden sm:block transition-colors ${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
             Viva Health
           </span>
