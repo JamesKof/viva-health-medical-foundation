@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { PAYSTACK_CONFIG } from "@/config/paystack";
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -61,7 +62,7 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
     try {
       // Initialize Paystack payment
       const handler = (window as any).PaystackPop.setup({
-        key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // Will be replaced with actual key
+        key: PAYSTACK_CONFIG.publicKey,
         email: email,
         amount: amount * 100, // Paystack expects amount in pesewas/kobo
         currency: "GHS",
