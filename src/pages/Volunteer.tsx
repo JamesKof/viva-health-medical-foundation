@@ -3,10 +3,18 @@ import { Navbar } from "@/components/Navbar";
 import { VolunteerSection } from "@/components/VolunteerSection";
 import { Footer } from "@/components/Footer";
 import { DonationModal } from "@/components/DonationModal";
+import { DonationStats } from "@/components/DonationStats";
 import { PageSEO } from "@/components/PageSEO";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const Volunteer = () => {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const { trackEvent } = useAnalytics();
+
+  const handleOpenDonate = () => {
+    trackEvent("cta_donate_click", { source: "volunteer_page" });
+    setIsDonationModalOpen(true);
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -18,17 +26,18 @@ const Volunteer = () => {
 
       <section className="pt-32 pb-12 container mx-auto px-4">
         <p className="text-sm font-medium text-primary mb-2">Get Involved</p>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-          Volunteer with Viva Health
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 max-w-3xl">
+          Join a community of people changing healthcare, one outreach at a time
         </h1>
-        <p className="text-muted-foreground max-w-2xl">
-          Whether you are a health professional, student, or passionate supporter, there is a place for you in
-          Viva Health&apos;s volunteer family. Choose how you want to engage and support our medical outreaches across
-          Ghana.
+        <p className="text-muted-foreground max-w-2xl leading-relaxed">
+          Whether you are a health professional, student, corporate partner, or supporter, there is a place for you in
+          the Viva Health volunteer family. Choose the level of commitment that fits your season of life.
         </p>
+
+        <DonationStats />
       </section>
 
-      <VolunteerSection onDonateClick={() => setIsDonationModalOpen(true)} />
+      <VolunteerSection onDonateClick={handleOpenDonate} />
       <Footer />
 
       <DonationModal

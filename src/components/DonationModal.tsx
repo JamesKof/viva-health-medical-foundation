@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { PAYSTACK_CONFIG } from "@/config/paystack";
 import { supabase } from "@/integrations/supabase/client";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ type PaymentMethod = "card" | "momo";
 
 export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const [donationType, setDonationType] = useState<DonationType>("one-time");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("momo");
   const [selectedAmount, setSelectedAmount] = useState<number | null>(100);
@@ -31,11 +33,10 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
   const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
 
   const handleOneTimeDonation = async () => {
-    // Initialize Paystack payment for one-time donation
     const handler = (window as any).PaystackPop.setup({
       key: PAYSTACK_CONFIG.publicKey,
       email: email,
-      amount: amount! * 100, // Paystack expects amount in pesewas/kobo
+      amount: amount! * 100,
       currency: "GHS",
       ref: `viva_${Date.now()}_${Math.floor(Math.random() * 1000000)}`,
       metadata: {
@@ -59,6 +60,13 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
       },
       channels: paymentMethod === "momo" ? ["mobile_money"] : ["card"],
       callback: (response: any) => {
+        trackEvent("donation_success_frontend", {
+          type: "one-time",
+          paymentMethod,
+          amount,
+          reference: response.reference,
+        });
+
         toast({
           title: "Thank You!",
           description: `Your donation of GHS ${amount} was successful. Reference: ${response.reference}`,
@@ -68,6 +76,11 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
       },
       onClose: () => {
         setIsLoading(false);
+        trackEvent("donation_flow_closed", {
+          type: "one-time",
+          paymentMethod,
+          amount,
+        });
       },
     });
 
@@ -76,7 +89,6 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
 
   const handleRecurringDonation = async () => {
     try {
-      // Call our edge function to create a subscription
       const { data, error } = await supabase.functions.invoke("create-subscription", {
         body: {
           email,
@@ -92,7 +104,12 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
       }
 
       if (data?.authorization_url) {
-        // Redirect to Paystack checkout page for subscription
+        trackEvent("donation_subscription_initiated", {
+          type: "recurring",
+          paymentMethod,
+          amount,
+        });
+
         window.location.href = data.authorization_url;
       } else {
         throw new Error("Failed to get payment URL");
@@ -105,6 +122,11 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
         variant: "destructive",
       });
       setIsLoading(false);
+      trackEvent("donation_subscription_error", {
+        type: "recurring",
+        paymentMethod,
+        amount,
+      });
     }
   };
 
@@ -138,6 +160,12 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
 
     setIsLoading(true);
 
+    trackEvent("donation_flow_started", {
+      donationType,
+      paymentMethod,
+      amount,
+    });
+
     try {
       if (donationType === "recurring") {
         await handleRecurringDonation();
@@ -151,6 +179,11 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
         variant: "destructive",
       });
       setIsLoading(false);
+      trackEvent("donation_flow_error", {
+        donationType,
+        paymentMethod,
+        amount,
+      });
     }
   };
 

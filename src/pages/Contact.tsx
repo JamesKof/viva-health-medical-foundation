@@ -8,18 +8,18 @@ const Contact = () => {
     <main className="min-h-screen bg-background">
       <PageSEO
         title="Contact Viva Health"
-        description="Get in touch with Viva Health Medical Foundation for partnerships, volunteering, or general enquiries."
+        description="Contact Viva Health Medical Foundation for partnerships, volunteering, sponsorships, or general enquiries."
       />
       <Navbar />
 
-      <section className="pt-32 pb-16 container mx-auto px-4">
+      <section className="pt-32 pb-8 container mx-auto px-4">
         <p className="text-sm font-medium text-primary mb-2">Contact</p>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-          We would love to hear from you
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 max-w-3xl">
+          Let&apos;s explore how we can work together
         </h1>
-        <p className="text-muted-foreground max-w-2xl mb-10">
-          Reach out to discuss partnerships, volunteer opportunities, sponsorships, or to learn more about our
-          outreach programs across Ghana.
+        <p className="text-muted-foreground max-w-2xl leading-relaxed mb-10">
+          Reach out to discuss community outreaches, corporate partnerships, volunteer opportunities, sponsorships, or
+          media enquiries. Our team will be glad to connect with you.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8">

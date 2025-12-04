@@ -19,6 +19,7 @@ const navItems = [
       { label: "Eye Screening", to: "/what-we-do" },
     ],
   },
+  { label: "Events", to: "/events" },
   {
     label: "Get Involved",
     to: "/volunteer",
