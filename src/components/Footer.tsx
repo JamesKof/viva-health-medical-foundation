@@ -8,15 +8,16 @@ import {
   MapPin,
   Heart,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const quickLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Our Services", href: "#services" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", to: "/" },
+  { label: "About Us", to: "/about" },
+  { label: "Our Services", to: "/what-we-do" },
+  { label: "Gallery", to: "/gallery" },
+  { label: "Blog", to: "/blog" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const services = [
@@ -76,12 +77,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.to}
                     className="text-background/70 hover:text-background transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -93,12 +94,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service}>
-                  <a
-                    href="#services"
+                  <Link
+                    to="/what-we-do"
                     className="text-background/70 hover:text-background transition-colors"
                   >
                     {service}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
