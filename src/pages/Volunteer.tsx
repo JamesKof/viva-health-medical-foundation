@@ -6,6 +6,7 @@ import { DonationModal } from "@/components/DonationModal";
 import { DonationStats } from "@/components/DonationStats";
 import { PageSEO } from "@/components/PageSEO";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { MemberOnboardingForm } from "@/components/MemberOnboardingForm";
 
 const Volunteer = () => {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
@@ -38,6 +39,7 @@ const Volunteer = () => {
       </section>
 
       <VolunteerSection onDonateClick={handleOpenDonate} />
+      <MemberOnboardingForm />
       <Footer />
 
       <DonationModal
