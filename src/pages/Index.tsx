@@ -36,7 +36,9 @@ const Index = () => {
       
       {/* Floating Donate Button */}
       <button
-        onClick={() => setIsDonationModalOpen(true)}
+        onClick={() => {
+          setIsDonationModalOpen(true);
+        }}
         className="fixed bottom-6 right-6 z-40 px-6 py-3 rounded-full bg-accent text-accent-foreground font-semibold shadow-lifted hover:scale-105 transition-transform animate-pulse"
       >
         Donate Now
