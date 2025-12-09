@@ -4,6 +4,12 @@ import outreach1 from "@/assets/blog/outreach-1.jpeg";
 import accraGirls from "@/assets/blog/accra-girls.jpg";
 import mentalHealth from "@/assets/blog/mental-health.png";
 
+// Keta Outreach images (unique, not used in KetaOutreachGallery on Donate page)
+import surgeonPreparing from "@/assets/keta-outreach/surgeon-preparing.jpg";
+import medicalTeamAction from "@/assets/keta-outreach/medical-team-action.jpg";
+import nursePreparing from "@/assets/keta-outreach/nurse-preparing.jpg";
+import surgeryInProgress from "@/assets/keta-outreach/surgery-in-progress.jpg";
+
 const galleryItems = [
   {
     id: 1,
@@ -31,27 +37,35 @@ const galleryItems = [
   },
   {
     id: 4,
-    image: outreach1,
-    title: "Community Health Screening",
-    location: "Tema, Ghana",
-    date: "December 2023",
+    image: surgeonPreparing,
+    title: "Keta Outreach - Surgeon Preparation",
+    location: "Keta, Volta Region",
+    date: "November 2024",
     category: "Outreach",
   },
   {
     id: 5,
-    image: accraGirls,
-    title: "Youth Health Education Program",
-    location: "Kasoa, Ghana",
-    date: "November 2023",
-    category: "Education",
+    image: medicalTeamAction,
+    title: "Keta Outreach - Medical Team in Action",
+    location: "Keta, Volta Region",
+    date: "November 2024",
+    category: "Outreach",
   },
   {
     id: 6,
-    image: mentalHealth,
-    title: "Volunteer Training Workshop",
-    location: "Accra, Ghana",
-    date: "October 2023",
-    category: "Training",
+    image: nursePreparing,
+    title: "Keta Outreach - Nurse Preparing Equipment",
+    location: "Keta, Volta Region",
+    date: "November 2024",
+    category: "Outreach",
+  },
+  {
+    id: 7,
+    image: surgeryInProgress,
+    title: "Keta Outreach - Life-Saving Surgery",
+    location: "Keta, Volta Region",
+    date: "November 2024",
+    category: "Outreach",
   },
 ];
 
