@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { CalendarDays, MapPin, Users } from "lucide-react";
+import { CalendarDays, MapPin, Users, Clock, ArrowRight, Bell } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { Link } from "react-router-dom";
+import teamBriefing from "@/assets/keta-outreach/team-briefing.jpg";
+import volunteersCoordinating from "@/assets/keta-outreach/volunteers-coordinating.jpg";
 
 type Event = Tables<"events">;
 
@@ -33,9 +36,19 @@ const Events = () => {
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString(undefined, {
       year: "numeric",
-      month: "short",
+      month: "long",
       day: "numeric",
     });
+
+  const formatShortDate = (iso: string) => {
+    const date = new Date(iso);
+    return {
+      day: date.getDate(),
+      month: date.toLocaleDateString(undefined, { month: "short" }),
+    };
+  };
+
+  const featuredEvent = upcoming[0];
 
   return (
     <main className="min-h-screen bg-background">
@@ -45,95 +58,244 @@ const Events = () => {
       />
       <Navbar />
 
-      <section className="pt-32 pb-8 container mx-auto px-4">
-        <p className="text-sm font-medium text-primary mb-2">Events</p>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 max-w-3xl">
-          Upcoming outreaches and stories from the field
-        </h1>
-        <p className="text-muted-foreground max-w-2xl leading-relaxed">
-          Stay updated on Viva Health clinics, screenings, and community outreach programmes. Join as a volunteer, partner,
-          or supporter.
-        </p>
+      {/* Hero Section */}
+      <section className="relative min-h-[50vh] flex items-center">
+        <div className="absolute inset-0">
+          <img
+            src={teamBriefing}
+            alt="Team planning outreach"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/50" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10 py-32">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6">
+              <CalendarDays className="w-4 h-4" />
+              Events & Outreaches
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+              Be Part of{" "}
+              <span className="text-primary">Something Meaningful</span>
+            </h1>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Join us at our upcoming outreaches, clinics, and community events. 
+              Every event is an opportunity to make a difference in someone's life.
+            </p>
+          </div>
+        </div>
       </section>
 
-      <section className="pb-16 container mx-auto px-4 space-y-10">
-        <div>
-          <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-            <CalendarDays className="w-5 h-5 text-primary" /> Upcoming Events
+      {/* Featured Upcoming Event */}
+      {featuredEvent && (
+        <section className="py-12 bg-primary/5">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div className="relative rounded-3xl overflow-hidden shadow-lifted">
+                <img
+                  src={volunteersCoordinating}
+                  alt="Volunteers at outreach"
+                  className="w-full h-72 object-cover"
+                />
+                <div className="absolute top-6 left-6">
+                  <div className="bg-primary text-primary-foreground rounded-2xl p-4 text-center shadow-lg">
+                    <div className="text-3xl font-bold">{formatShortDate(featuredEvent.event_date).day}</div>
+                    <div className="text-sm uppercase">{formatShortDate(featuredEvent.event_date).month}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-medium mb-4">
+                  <Bell className="w-3 h-3" />
+                  Next Upcoming Event
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                  {featuredEvent.title}
+                </h2>
+                {featuredEvent.description && (
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    {featuredEvent.description}
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-6">
+                  <span className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-primary" />
+                    {formatDate(featuredEvent.event_date)}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-primary" />
+                    {featuredEvent.location}
+                  </span>
+                  {featuredEvent.max_attendees && (
+                    <span className="flex items-center gap-2">
+                      <Users className="w-4 h-4 text-primary" />
+                      {featuredEvent.max_attendees} spots available
+                    </span>
+                  )}
+                </div>
+                <Link
+                  to="/volunteer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:shadow-glow transition-all duration-300"
+                >
+                  Join as Volunteer
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Upcoming Events */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <CalendarDays className="w-5 h-5 text-primary" />
+            </div>
+            Upcoming Events
           </h2>
+
           {isLoading && !events.length ? (
-            <p className="text-sm text-muted-foreground">Loading events...</p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-card rounded-2xl p-6 animate-pulse">
+                  <div className="h-4 bg-muted rounded w-1/3 mb-4" />
+                  <div className="h-6 bg-muted rounded w-3/4 mb-3" />
+                  <div className="h-4 bg-muted rounded w-full mb-2" />
+                  <div className="h-4 bg-muted rounded w-2/3" />
+                </div>
+              ))}
+            </div>
           ) : upcoming.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              There are no upcoming events scheduled at the moment. Please check back soon or follow our social channels
-              for announcements.
-            </p>
+            <div className="bg-card rounded-2xl p-8 text-center shadow-soft border border-border/60">
+              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                <CalendarDays className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">No Upcoming Events</h3>
+              <p className="text-muted-foreground mb-6">
+                There are no upcoming events scheduled at the moment. Follow our social channels for announcements.
+              </p>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 text-primary font-medium"
+              >
+                Get Notified
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {upcoming.map((event) => (
-                <article
-                  key={event.id}
-                  className="bg-card rounded-2xl p-5 shadow-soft border border-border/60 flex flex-col gap-3"
-                >
-                  <p className="text-xs font-medium text-primary tracking-wide uppercase">
-                    {formatDate(event.event_date)}
-                  </p>
-                  <h3 className="text-lg font-semibold text-foreground">{event.title}</h3>
-                  {event.description && (
-                    <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
-                  )}
-                  <div className="mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="inline-flex items-center gap-1">
-                      <MapPin className="w-4 h-4" /> {event.location}
-                    </span>
-                    {event.max_attendees && (
-                      <span className="inline-flex items-center gap-1">
-                        <Users className="w-4 h-4" /> Max {event.max_attendees} participants
-                      </span>
-                    )}
-                  </div>
-                </article>
-              ))}
+              {upcoming.slice(featuredEvent ? 1 : 0).map((event) => {
+                const dateInfo = formatShortDate(event.event_date);
+                return (
+                  <article
+                    key={event.id}
+                    className="bg-card rounded-2xl overflow-hidden shadow-soft border border-border/60 card-lift"
+                  >
+                    <div className="flex items-start gap-4 p-6">
+                      <div className="bg-primary/10 rounded-xl p-3 text-center flex-shrink-0">
+                        <div className="text-2xl font-bold text-primary">{dateInfo.day}</div>
+                        <div className="text-xs text-primary uppercase">{dateInfo.month}</div>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground mb-2">{event.title}</h3>
+                        {event.description && (
+                          <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                            {event.description}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            {event.location}
+                          </span>
+                          {event.max_attendees && (
+                            <span className="flex items-center gap-1">
+                              <Users className="w-3 h-3" />
+                              {event.max_attendees} spots
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>
+      </section>
 
-        <div>
-          <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-            <CalendarDays className="w-5 h-5 text-muted-foreground" /> Past Outreaches
+      {/* Past Events Archive */}
+      <section className="py-16 section-gradient">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
+              <CalendarDays className="w-5 h-5 text-muted-foreground" />
+            </div>
+            Past Outreaches
           </h2>
+
           {past.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              Past outreaches will appear here as we continue to grow our programmes and impact.
+            <p className="text-muted-foreground">
+              Past outreaches will appear here as we continue to grow our programmes.
             </p>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {past.map((event) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {past.slice(0, 8).map((event) => (
                 <article
                   key={event.id}
-                  className="bg-muted/40 rounded-2xl p-5 border border-border/40 flex flex-col gap-3"
+                  className="bg-card/50 rounded-xl p-4 border border-border/40"
                 >
-                  <p className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+                  <p className="text-xs font-medium text-muted-foreground mb-2">
                     {formatDate(event.event_date)}
                   </p>
-                  <h3 className="text-lg font-semibold text-foreground">{event.title}</h3>
-                  {event.description && (
-                    <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
-                  )}
-                  <div className="mt-auto pt-3 flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="inline-flex items-center gap-1">
-                      <MapPin className="w-4 h-4" /> {event.location}
-                    </span>
-                    {event.max_attendees && (
-                      <span className="inline-flex items-center gap-1">
-                        <Users className="w-4 h-4" /> Max {event.max_attendees} participants
-                      </span>
-                    )}
-                  </div>
+                  <h3 className="font-semibold text-foreground text-sm mb-1 line-clamp-1">
+                    {event.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground flex items-center gap-1">
+                    <MapPin className="w-3 h-3" />
+                    {event.location}
+                  </span>
                 </article>
               ))}
             </div>
           )}
+
+          {past.length > 8 && (
+            <div className="text-center mt-8">
+              <Link
+                to="/gallery"
+                className="inline-flex items-center gap-2 text-primary font-medium"
+              >
+                View All Past Events in Gallery
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-primary">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
+            Want to Host an Outreach in Your Community?
+          </h2>
+          <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
+            We partner with community leaders, churches, schools, and organizations to bring 
+            healthcare to those who need it most.
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-background text-foreground font-semibold hover:shadow-lifted transition-all duration-300"
+          >
+            Contact Us
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </section>
 
