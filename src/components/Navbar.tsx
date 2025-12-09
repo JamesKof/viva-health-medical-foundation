@@ -135,7 +135,7 @@ export const Navbar = () => {
 
         {/* CTA Button */}
         <Link
-          to="/volunteer"
+          to="/donate"
           className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm transition-all duration-300 hover:shadow-glow hover:scale-105"
         >
           Donate Now
@@ -201,7 +201,7 @@ export const Navbar = () => {
             </div>
           ))}
           <Link
-            to="/volunteer"
+            to="/donate"
             className="block mt-4 px-4 py-3 rounded-lg bg-primary text-primary-foreground text-center font-medium"
             onClick={() => setIsMobileMenuOpen(false)}
           >

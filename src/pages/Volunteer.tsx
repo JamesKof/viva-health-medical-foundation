@@ -1,22 +1,11 @@
-import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { VolunteerSection } from "@/components/VolunteerSection";
 import { Footer } from "@/components/Footer";
-import { DonationModal } from "@/components/DonationModal";
 import { DonationStats } from "@/components/DonationStats";
 import { PageSEO } from "@/components/PageSEO";
-import { useAnalytics } from "@/hooks/useAnalytics";
 import { MemberOnboardingForm } from "@/components/MemberOnboardingForm";
 
 const Volunteer = () => {
-  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
-  const { trackEvent } = useAnalytics();
-
-  const handleOpenDonate = () => {
-    trackEvent("cta_donate_click", { source: "volunteer_page" });
-    setIsDonationModalOpen(true);
-  };
-
   return (
     <main className="min-h-screen bg-background">
       <PageSEO
@@ -38,14 +27,9 @@ const Volunteer = () => {
         <DonationStats />
       </section>
 
-      <VolunteerSection onDonateClick={handleOpenDonate} />
+      <VolunteerSection />
       <MemberOnboardingForm />
       <Footer />
-
-      <DonationModal
-        isOpen={isDonationModalOpen}
-        onClose={() => setIsDonationModalOpen(false)}
-      />
     </main>
   );
 };
