@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { DonationStats } from "@/components/DonationStats";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { MemberOnboardingForm } from "@/components/MemberOnboardingForm";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -68,8 +69,7 @@ const Volunteer = () => {
           description="Become a Viva Health volunteer or supporter and help deliver life-changing healthcare to underserved communities."
         />
         <Navbar />
-
-        {/* Hero Section with Green Background */}
+        <StickySubNav />
         <section className="relative min-h-[70vh] flex items-center bg-primary">
           <div className="absolute inset-0">
             <img

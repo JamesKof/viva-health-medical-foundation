@@ -9,32 +9,39 @@ import { VolunteerSection } from "@/components/VolunteerSection";
 import { BlogSection } from "@/components/BlogSection";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
+import { PageTransition } from "@/components/PageTransition";
+import { Heart } from "lucide-react";
 
 const Index = () => {
   return (
-    <main className="min-h-screen bg-background">
-      <PageSEO
-        title="Viva Health Medical Foundation"
-        description="Free medical outreaches, screenings, and health education programs bringing quality care to underserved communities in Ghana."
-      />
-      <Navbar />
-      <Hero />
-      <FeatureCards />
-      <AboutSection />
-      <ServicesSection />
-      <TestimonialsSection />
-      <VolunteerSection />
-      <BlogSection />
-      <Footer />
-      
-      {/* Floating Donate Button */}
-      <Link
-        to="/donate"
-        className="fixed bottom-6 right-6 z-40 px-6 py-3 rounded-full bg-accent text-accent-foreground font-semibold shadow-lifted hover:scale-105 transition-transform animate-pulse"
-      >
-        Donate Now
-      </Link>
-    </main>
+    <PageTransition>
+      <main className="min-h-screen bg-background">
+        <PageSEO
+          title="Viva Health Medical Foundation"
+          description="Free medical outreaches, screenings, and health education programs bringing quality care to underserved communities in Ghana."
+        />
+        <Navbar />
+        <StickySubNav />
+        <Hero />
+        <FeatureCards />
+        <AboutSection />
+        <ServicesSection />
+        <TestimonialsSection />
+        <VolunteerSection />
+        <BlogSection />
+        <Footer />
+        
+        {/* Floating Donate Button */}
+        <Link
+          to="/donate"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-accent-foreground font-semibold shadow-lifted hover:scale-105 transition-transform"
+        >
+          <Heart className="w-5 h-5" />
+          Donate Now
+        </Link>
+      </main>
+    </PageTransition>
   );
 };
 

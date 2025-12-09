@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { Calendar, User, ArrowRight, Mail, BookOpen } from "lucide-react";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
 import { PageTransition, PageHero } from "@/components/PageTransition";
@@ -69,8 +70,7 @@ const Blog = () => {
           description="Stories, reflections, and impact updates from Viva Health Medical Foundation outreaches and programmes."
         />
         <Navbar />
-
-        {/* Hero Section with Green Background */}
+        <StickySubNav />
         <section className="pt-24 bg-primary">
           <div className="relative min-h-[60vh] flex items-end">
             <div className="absolute inset-0">
