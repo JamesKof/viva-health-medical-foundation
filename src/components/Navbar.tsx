@@ -61,22 +61,15 @@ export const Navbar = () => {
     >
       <div className="flex items-center justify-between px-4 md:px-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center group">
           <img
             src={logo}
             alt="Viva Health Medical Foundation Logo"
             className={cn(
               "w-auto object-contain transition-all duration-300",
-              isScrolled ? "h-10" : "h-14 drop-shadow-[0_2px_8px_rgba(255,255,255,0.5)]"
+              isScrolled ? "h-16" : "h-24 drop-shadow-[0_2px_12px_rgba(255,255,255,0.6)]"
             )}
           />
-          <span
-            className={`font-bold text-lg tracking-tight hidden sm:block transition-colors ${
-              isScrolled ? "text-foreground" : "text-primary-foreground"
-            }`}
-          >
-            Viva Health
-          </span>
         </Link>
 
         {/* Desktop Navigation */}

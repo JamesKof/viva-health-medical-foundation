@@ -9,14 +9,17 @@ import surgeonPreparing from "@/assets/keta-outreach/surgeon-preparing.jpg";
 import medicalTeamAction from "@/assets/keta-outreach/medical-team-action.jpg";
 import nursePreparing from "@/assets/keta-outreach/nurse-preparing.jpg";
 import surgeryInProgress from "@/assets/keta-outreach/surgery-in-progress.jpg";
+import surgeryCloseupBw from "@/assets/keta-outreach/surgery-closeup-bw.jpg";
+import surgicalProcedure from "@/assets/keta-outreach/surgical-procedure.jpg";
+import doctorPatientCare from "@/assets/keta-outreach/doctor-patient-care.jpg";
 
 const galleryItems = [
   {
     id: 1,
-    image: outreach1,
-    title: "Medical Outreach 2024",
-    location: "Accra, Ghana",
-    date: "March 2024",
+    image: doctorPatientCare,
+    title: "Keta Outreach - Doctor Patient Care",
+    location: "Keta, Volta Region",
+    date: "November 2024",
     category: "Outreach",
   },
   {
@@ -65,6 +68,30 @@ const galleryItems = [
     title: "Keta Outreach - Life-Saving Surgery",
     location: "Keta, Volta Region",
     date: "November 2024",
+    category: "Outreach",
+  },
+  {
+    id: 8,
+    image: surgeryCloseupBw,
+    title: "Keta Outreach - Surgical Precision",
+    location: "Keta, Volta Region",
+    date: "November 2024",
+    category: "Outreach",
+  },
+  {
+    id: 9,
+    image: surgicalProcedure,
+    title: "Keta Outreach - Saving Lives",
+    location: "Keta, Volta Region",
+    date: "November 2024",
+    category: "Outreach",
+  },
+  {
+    id: 10,
+    image: outreach1,
+    title: "Medical Outreach 2024",
+    location: "Accra, Ghana",
+    date: "March 2024",
     category: "Outreach",
   },
 ];
