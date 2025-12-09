@@ -1,4 +1,5 @@
 import { Heart, HandCoins, Megaphone, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const VOLUNTEER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe7vJKmCjINn7aX7KVfysHMiWIALOMJJPhiLl6BJY4T6YdK2w/viewform";
 
@@ -20,11 +21,7 @@ const volunteerOptions = [
   },
 ];
 
-interface VolunteerSectionProps {
-  onDonateClick?: () => void;
-}
-
-export const VolunteerSection = ({ onDonateClick }: VolunteerSectionProps) => {
+export const VolunteerSection = () => {
   return (
     <section id="volunteer" className="py-24 section-gradient">
       <div className="container mx-auto px-4">
@@ -49,14 +46,13 @@ export const VolunteerSection = ({ onDonateClick }: VolunteerSectionProps) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                type="button"
-                onClick={() => onDonateClick?.()}
+              <Link
+                to="/donate"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold transition-all duration-300 hover:shadow-glow hover:scale-105"
               >
                 <Heart className="w-5 h-5" />
                 Donate Now
-              </button>
+              </Link>
               <a
                 href={VOLUNTEER_FORM_URL}
                 target="_blank"
