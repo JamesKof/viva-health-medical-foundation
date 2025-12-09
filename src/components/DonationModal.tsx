@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Heart, CreditCard, Smartphone, Check, Loader2, Calendar, Repeat } from "lucide-react";
+import { X, Heart, CreditCard, Smartphone, Check, Loader2, Calendar, Repeat, Building2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,8 +15,14 @@ interface DonationModalProps {
 
 const donationAmounts = [50, 100, 200, 500, 1000];
 
+const BANK_DETAILS = {
+  bankName: "Ecobank Ghana",
+  accountName: "Viva Health Medical Foundation",
+  accountNumber: "1234567890",
+};
+
 type DonationType = "one-time" | "recurring";
-type PaymentMethod = "card" | "momo";
+type PaymentMethod = "card" | "momo" | "bank";
 
 export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
   const { toast } = useToast();
@@ -303,7 +309,7 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
           {/* Payment Method */}
           <div>
             <Label className="text-sm font-medium mb-3 block">Payment Method</Label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={() => setPaymentMethod("momo")}
                 className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${
@@ -324,10 +330,60 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
                 }`}
               >
                 <CreditCard className="w-6 h-6 text-primary" />
-                <span className="font-medium text-sm">Card Payment</span>
+                <span className="font-medium text-sm">Card</span>
+              </button>
+              <button
+                onClick={() => setPaymentMethod("bank")}
+                className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${
+                  paymentMethod === "bank"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                <Building2 className="w-6 h-6 text-primary" />
+                <span className="font-medium text-sm">Bank Transfer</span>
               </button>
             </div>
           </div>
+
+          {/* Bank Details Section */}
+          {paymentMethod === "bank" && (
+            <div className="bg-secondary/50 rounded-xl p-4 space-y-3">
+              <h4 className="font-semibold text-foreground">Bank Transfer Details</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Bank Name</span>
+                  <span className="font-medium">{BANK_DETAILS.bankName}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Account Name</span>
+                  <span className="font-medium">{BANK_DETAILS.accountName}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Account Number</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium font-mono">{BANK_DETAILS.accountNumber}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(BANK_DETAILS.accountNumber);
+                        toast({
+                          title: "Copied!",
+                          description: "Account number copied to clipboard.",
+                        });
+                      }}
+                      className="p-1 hover:bg-secondary rounded"
+                    >
+                      <Copy className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-3">
+                After making the transfer, please fill in your details below so we can acknowledge your donation.
+              </p>
+            </div>
+          )}
 
           {/* Donor Information */}
           <div className="space-y-4">

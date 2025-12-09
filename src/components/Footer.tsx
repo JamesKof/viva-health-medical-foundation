@@ -31,10 +31,8 @@ const services = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Facebook, href: "https://web.facebook.com/profile.php?id=100075519322801", label: "Facebook" },
+  { icon: Instagram, href: "https://www.instagram.com/vivahealth_medical_foundation/", label: "Instagram" },
 ];
 
 export const Footer = () => {

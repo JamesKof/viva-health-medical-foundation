@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 
+const VOLUNTEER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe7vJKmCjINn7aX7KVfysHMiWIALOMJJPhiLl6BJY4T6YdK2w/viewform";
+
 const navItems = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
@@ -24,9 +26,8 @@ const navItems = [
     label: "Get Involved",
     to: "/volunteer",
     children: [
-      { label: "Volunteer", to: "/volunteer" },
+      { label: "Volunteer", to: VOLUNTEER_FORM_URL, external: true },
       { label: "Donate Cash", to: "/volunteer" },
-      { label: "Accommodation Support", to: "/volunteer" },
       { label: "Sponsorship", to: "/volunteer" },
       { label: "Publicity", to: "/volunteer" },
     ],
@@ -64,7 +65,10 @@ export const Navbar = () => {
           <img
             src={logo}
             alt="Viva Health Medical Foundation Logo"
-            className="h-10 w-auto object-contain"
+            className={cn(
+              "w-auto object-contain transition-all duration-300",
+              isScrolled ? "h-10" : "h-14 drop-shadow-[0_2px_8px_rgba(255,255,255,0.5)]"
+            )}
           />
           <span
             className={`font-bold text-lg tracking-tight hidden sm:block transition-colors ${
@@ -99,16 +103,29 @@ export const Navbar = () => {
 
               {/* Dropdown */}
               {item.children && openDropdown === item.label && (
-                <div className="absolute top-full left-0 mt-2 py-2 w-56 rounded-xl glass-strong shadow-lifted animate-scale-in z-50">
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.label}
-                      to={child.to}
-                      className="block px-4 py-2.5 text-sm text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors"
-                      onClick={() => setOpenDropdown(null)}
-                    >
-                      {child.label}
-                    </Link>
+                <div className="absolute top-full left-0 mt-2 py-2 w-56 max-h-64 overflow-y-auto rounded-xl glass-strong shadow-lifted animate-scale-in z-50">
+                  {item.children.map((child: any) => (
+                    child.external ? (
+                      <a
+                        key={child.label}
+                        href={child.to}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2.5 text-sm text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        {child.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={child.label}
+                        to={child.to}
+                        className="block px-4 py-2.5 text-sm text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors"
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        {child.label}
+                      </Link>
+                    )
                   ))}
                 </div>
               )}
@@ -142,7 +159,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-2xl glass-strong shadow-lifted p-4 animate-scale-in">
+        <div className="lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-2xl glass-strong shadow-lifted p-4 animate-scale-in max-h-[70vh] overflow-y-auto">
           {navItems.map((item) => (
             <div key={item.label}>
               <Link
@@ -156,15 +173,28 @@ export const Navbar = () => {
               </Link>
               {item.children && (
                 <div className="pl-4 border-l-2 border-primary/20 ml-4 mb-2">
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.label}
-                      to={child.to}
-                      className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {child.label}
-                    </Link>
+                  {item.children.map((child: any) => (
+                    child.external ? (
+                      <a
+                        key={child.label}
+                        href={child.to}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {child.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={child.label}
+                        to={child.to}
+                        className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    )
                   ))}
                 </div>
               )}

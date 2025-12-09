@@ -1,4 +1,6 @@
-import { Heart, HandCoins, Home, Megaphone, Users } from "lucide-react";
+import { Heart, HandCoins, Megaphone, Users } from "lucide-react";
+
+const VOLUNTEER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe7vJKmCjINn7aX7KVfysHMiWIALOMJJPhiLl6BJY4T6YdK2w/viewform";
 
 const volunteerOptions = [
   {
@@ -10,11 +12,6 @@ const volunteerOptions = [
     icon: HandCoins,
     title: "Cash Donation",
     description: "Your financial support directly funds medical screenings and medications.",
-  },
-  {
-    icon: Home,
-    title: "Accommodation Support",
-    description: "Help provide lodging for our medical outreach teams in communities.",
   },
   {
     icon: Megaphone,
@@ -61,7 +58,9 @@ export const VolunteerSection = ({ onDonateClick }: VolunteerSectionProps) => {
                 Donate Now
               </button>
               <a
-                href="#contact"
+                href={VOLUNTEER_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-primary text-primary font-semibold transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
               >
                 Become a Volunteer

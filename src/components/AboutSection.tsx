@@ -1,5 +1,5 @@
 import { Target, Eye, Users } from "lucide-react";
-import founderImg from "@/assets/team/founder.jpg";
+import groupImg from "@/assets/hero-community.jpeg";
 
 export const AboutSection = () => {
   return (
@@ -10,7 +10,7 @@ export const AboutSection = () => {
           <div className="relative">
             <div className="relative z-10 rounded-3xl overflow-hidden shadow-lifted">
               <img
-                src={founderImg}
+                src={groupImg}
                 alt="Viva Health Foundation Team"
                 className="w-full h-[500px] object-cover"
               />
