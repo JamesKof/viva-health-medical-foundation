@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { Heart, Target, Eye, Users, Sparkles, Shield, HandHeart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FadeInUp, SlideInLeft, SlideInRight, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
@@ -49,8 +50,7 @@ const About = () => {
           description="Discover the story, mission, and values of Viva Health Medical Foundation and our commitment to underserved communities."
         />
         <Navbar />
-
-        {/* Hero Section with Green Background */}
+        <StickySubNav />
         <section className="relative min-h-[70vh] flex items-center bg-primary">
           <div className="absolute inset-0">
             <img

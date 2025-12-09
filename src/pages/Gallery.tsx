@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { X, Camera, MapPin, Calendar } from "lucide-react";
 import { FadeInUp } from "@/components/AnimatedSection";
 import { PageTransition, PageHero } from "@/components/PageTransition";
@@ -66,8 +67,7 @@ const Gallery = () => {
           description="Photos from Viva Health Medical Foundation outreaches, screenings, and community initiatives across Ghana."
         />
         <Navbar />
-
-        {/* Hero Collage with Green Background */}
+        <StickySubNav />
         <section className="pt-24 pb-8 bg-primary">
           <div className="relative h-[50vh] overflow-hidden">
             <div className="absolute inset-0 grid grid-cols-4 grid-rows-2 gap-1 opacity-50">

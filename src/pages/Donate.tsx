@@ -3,6 +3,7 @@ import { Heart, CreditCard, Smartphone, Building2, Copy, Check, Loader2, Calenda
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +12,8 @@ import { PAYSTACK_CONFIG } from "@/config/paystack";
 import { supabase } from "@/integrations/supabase/client";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { KetaOutreachGallery } from "@/components/KetaOutreachGallery";
-import heroImg from "@/assets/hero-community.jpeg";
+import { PageTransition, PageHero } from "@/components/PageTransition";
+import surgeryInProgress from "@/assets/keta-outreach/surgery-in-progress.jpg";
 
 const BANK_DETAILS = {
   bankName: "Ecobank Ghana",
@@ -139,43 +141,46 @@ const Donate = () => {
   };
 
   return (
-    <main className="min-h-screen bg-background">
-      <PageSEO
-        title="Donate to Viva Health Medical Foundation"
-        description="Support free healthcare for underserved communities in Ghana. Donate via Mobile Money, Card, or Bank Transfer."
-      />
-      <Navbar />
+    <PageTransition>
+      <main className="min-h-screen bg-background">
+        <PageSEO
+          title="Donate to Viva Health Medical Foundation"
+          description="Support free healthcare for underserved communities in Ghana. Donate via Mobile Money, Card, or Bank Transfer."
+        />
+        <Navbar />
+        <StickySubNav />
 
-      {/* Hero Section */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={heroImg} alt="Medical outreach" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 to-foreground/70" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10 py-16">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary-foreground font-medium text-sm mb-6 backdrop-blur-sm">
-              <Heart className="w-4 h-4" />
-              Make a Difference
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6">
-              Your Generosity Saves Lives
-            </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed mb-8">
-              Every donation directly funds free medical screenings, medications, and health education for communities that need it most.
-            </p>
-            <div className="grid grid-cols-3 gap-4">
-              {impactStats.map((stat) => (
-                <div key={stat.label} className="text-center p-4 rounded-xl bg-primary-foreground/10 backdrop-blur-sm">
-                  <stat.icon className="w-6 h-6 mx-auto mb-2 text-primary" />
-                  <div className="text-2xl font-bold text-primary-foreground">{stat.value}</div>
-                  <div className="text-xs text-primary-foreground/70">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+        {/* Hero Section with Green Background */}
+        <section className="relative min-h-[60vh] flex items-center bg-primary">
+          <div className="absolute inset-0">
+            <img src={surgeryInProgress} alt="Life-saving surgery" className="w-full h-full object-cover opacity-30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-primary/70" />
           </div>
-        </div>
-      </section>
+          <div className="container mx-auto px-4 relative z-10 py-32">
+            <PageHero className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 text-primary-foreground font-medium text-sm mb-6">
+                <Heart className="w-4 h-4" />
+                Make a Difference
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
+                Your Generosity{" "}
+                <span className="text-accent">Saves Lives</span>
+              </h1>
+              <p className="text-lg text-primary-foreground/80 leading-relaxed mb-8">
+                Every donation directly funds free medical screenings, medications, and health education for communities that need it most.
+              </p>
+              <div className="grid grid-cols-3 gap-4">
+                {impactStats.map((stat) => (
+                  <div key={stat.label} className="text-center p-4 rounded-xl bg-primary-foreground/10 backdrop-blur-sm">
+                    <stat.icon className="w-6 h-6 mx-auto mb-2 text-accent" />
+                    <div className="text-2xl font-bold text-primary-foreground">{stat.value}</div>
+                    <div className="text-xs text-primary-foreground/70">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </PageHero>
+          </div>
+        </section>
 
       {/* Donation Form Section */}
       <section className="py-16 container mx-auto px-4">
@@ -470,7 +475,8 @@ const Donate = () => {
       <KetaOutreachGallery />
 
       <Footer />
-    </main>
+      </main>
+    </PageTransition>
   );
 };
 

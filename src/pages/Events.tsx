@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { Link } from "react-router-dom";
@@ -61,8 +62,7 @@ const Events = () => {
           description="Upcoming and past Viva Health Medical Foundation outreaches, clinics, and community programmes."
         />
         <Navbar />
-
-        {/* Hero Section with Green Background */}
+        <StickySubNav />
         <section className="relative min-h-[50vh] flex items-center bg-primary">
           <div className="absolute inset-0">
             <img

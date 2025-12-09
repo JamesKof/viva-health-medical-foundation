@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
+import { StickySubNav } from "@/components/StickySubNav";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
@@ -65,8 +66,7 @@ const WhatWeDo = () => {
           description="See how Viva Health Medical Foundation delivers free clinics, screenings, and health education across Ghana."
         />
         <Navbar />
-
-        {/* Hero Section with Green Background */}
+        <StickySubNav />
         <section className="relative min-h-[60vh] flex items-center bg-primary">
           <div className="absolute inset-0">
             <img
