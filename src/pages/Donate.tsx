@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { PAYSTACK_CONFIG } from "@/config/paystack";
 import { supabase } from "@/integrations/supabase/client";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { KetaOutreachGallery } from "@/components/KetaOutreachGallery";
 import heroImg from "@/assets/hero-community.jpeg";
 
 const BANK_DETAILS = {
@@ -464,6 +465,9 @@ const Donate = () => {
           </div>
         </div>
       </section>
+
+      {/* Keta Outreach Gallery */}
+      <KetaOutreachGallery />
 
       <Footer />
     </main>
