@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 
@@ -41,6 +41,8 @@ export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,7 +89,9 @@ export const Navbar = () => {
                   "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
                   isScrolled
                     ? "text-foreground/80 hover:text-foreground hover:bg-secondary"
-                    : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                    : isHomePage
+                      ? "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                      : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 )}
               >
                 {item.label}
@@ -138,7 +142,9 @@ export const Navbar = () => {
         <button
           className={cn(
             "lg:hidden p-2 rounded-full transition-colors",
-            isScrolled ? "hover:bg-secondary text-foreground" : "hover:bg-primary-foreground/10 text-primary-foreground"
+            isScrolled 
+              ? "hover:bg-secondary text-foreground" 
+              : "hover:bg-primary-foreground/10 text-primary-foreground"
           )}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
