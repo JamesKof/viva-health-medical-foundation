@@ -136,6 +136,42 @@ export type Database = {
         }
         Relationships: []
       }
+      member_onboardings: {
+        Row: {
+          contact: string
+          created_at: string
+          email: string
+          full_name: string
+          gender: string | null
+          id: string
+          place_of_abode: string
+          place_of_work: string | null
+          volunteer_category: string | null
+        }
+        Insert: {
+          contact: string
+          created_at?: string
+          email: string
+          full_name: string
+          gender?: string | null
+          id?: string
+          place_of_abode: string
+          place_of_work?: string | null
+          volunteer_category?: string | null
+        }
+        Update: {
+          contact?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          gender?: string | null
+          id?: string
+          place_of_abode?: string
+          place_of_work?: string | null
+          volunteer_category?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

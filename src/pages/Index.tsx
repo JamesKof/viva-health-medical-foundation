@@ -4,8 +4,6 @@ import { Hero } from "@/components/Hero";
 import { FeatureCards } from "@/components/FeatureCards";
 import { AboutSection } from "@/components/AboutSection";
 import { ServicesSection } from "@/components/ServicesSection";
-import { VideoSection } from "@/components/VideoSection";
-import { GallerySection } from "@/components/GallerySection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { VolunteerSection } from "@/components/VolunteerSection";
 import { BlogSection } from "@/components/BlogSection";
@@ -27,8 +25,6 @@ const Index = () => {
         <FeatureCards />
         <AboutSection />
         <ServicesSection />
-        <VideoSection />
-        <GallerySection />
         <TestimonialsSection />
         <VolunteerSection onDonateClick={() => setIsDonationModalOpen(true)} />
         <BlogSection />
