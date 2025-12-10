@@ -1,12 +1,12 @@
 import {
   Facebook,
-  Twitter,
-  Linkedin,
   Instagram,
   Mail,
   Phone,
   MapPin,
   Heart,
+  Shield,
+  CreditCard,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
@@ -127,6 +127,29 @@ export const Footer = () => {
         </div>
       </div>
 
+      {/* PCI Compliance & Trust Badges */}
+      <div className="border-t border-background/10">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
+            <div className="flex items-center gap-2 bg-background/5 rounded-lg px-4 py-2">
+              <Shield className="w-5 h-5 text-primary" />
+              <span className="text-sm text-background/80">SSL Secured</span>
+            </div>
+            <div className="flex items-center gap-2 bg-background/5 rounded-lg px-4 py-2">
+              <CreditCard className="w-5 h-5 text-primary" />
+              <span className="text-sm text-background/80">PCI DSS Compliant</span>
+            </div>
+            <div className="flex items-center gap-2 bg-background/5 rounded-lg px-4 py-2">
+              <Shield className="w-5 h-5 text-primary" />
+              <span className="text-sm text-background/80">Secure Payments via Paystack</span>
+            </div>
+          </div>
+          <p className="text-center text-xs text-background/50 mb-6">
+            All donations are processed securely through PCI-DSS Level 1 compliant payment processors.
+          </p>
+        </div>
+      </div>
+
       {/* Bottom Bar */}
       <div className="border-t border-background/10">
         <div className="container mx-auto px-4 py-6">
@@ -135,6 +158,15 @@ export const Footer = () => {
               © {new Date().getFullYear()} Viva Health Medical Foundation. All
               rights reserved.
             </p>
+            <div className="flex items-center gap-4 text-sm">
+              <Link to="/privacy-policy" className="text-background/60 hover:text-background transition-colors">
+                Privacy Policy
+              </Link>
+              <span className="text-background/30">|</span>
+              <Link to="/cookies-policy" className="text-background/60 hover:text-background transition-colors">
+                Cookies Policy
+              </Link>
+            </div>
             <p className="text-background/60 text-sm flex items-center gap-1">
               Made with <Heart className="w-4 h-4 text-accent" /> for better
               healthcare
