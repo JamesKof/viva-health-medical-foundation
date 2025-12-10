@@ -11,6 +11,7 @@ import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
 import { StickySubNav } from "@/components/StickySubNav";
 import { PageTransition } from "@/components/PageTransition";
+import { NewsletterSubscription } from "@/components/NewsletterSubscription";
 import { Heart } from "lucide-react";
 
 const Index = () => {
@@ -30,6 +31,14 @@ const Index = () => {
         <TestimonialsSection />
         <VolunteerSection />
         <BlogSection />
+        
+        {/* Newsletter Section */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <NewsletterSubscription />
+          </div>
+        </section>
+        
         <Footer />
         
         {/* Floating Donate Button */}
