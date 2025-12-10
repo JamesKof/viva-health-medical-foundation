@@ -28,23 +28,23 @@ import doctorPatientCare from "@/assets/keta-outreach/doctor-patient-care.jpg";
 import busLoading from "@/assets/keta-outreach/bus-loading.jpg";
 import heroCommunity from "@/assets/hero-community.jpeg";
 
-const categories = ["All", "Keta 2024", "Accra", "Schools", "Community"];
+const categories = ["All", "Keta Outreach", "Accra", "Schools", "Community"];
 
 const galleryItems = [
-  { id: 1, image: busLoading, title: "Journey to Keta", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 2, image: doctorPatientCare, title: "Patient Care", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 3, image: surgeryInProgress, title: "Life-Saving Surgery", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 4, image: surgeonPreparing, title: "Surgeon Preparation", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 5, image: medicalTeamAction, title: "Medical Team in Action", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 6, image: nursePreparing, title: "Nursing Excellence", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 7, image: surgeryCloseupBw, title: "Surgical Precision", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 8, image: surgicalProcedure, title: "Saving Lives", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 9, image: teamBriefing, title: "Team Coordination", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 10, image: loadingSupplies, title: "Loading Medical Supplies", location: "Accra, Ghana", date: "November 2024", category: "Keta 2024" },
-  { id: 11, image: volunteersCoordinating, title: "Volunteers United", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
-  { id: 12, image: medicalStaffPpe, title: "Safety First", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
+  { id: 1, image: busLoading, title: "Journey to Keta", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 2, image: doctorPatientCare, title: "Patient Care", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 3, image: surgeryInProgress, title: "Life-Saving Surgery", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 4, image: surgeonPreparing, title: "Surgeon Preparation", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 5, image: medicalTeamAction, title: "Medical Team in Action", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 6, image: nursePreparing, title: "Nursing Excellence", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 7, image: surgeryCloseupBw, title: "Surgical Precision", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 8, image: surgicalProcedure, title: "Saving Lives", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 9, image: teamBriefing, title: "Team Coordination", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 10, image: loadingSupplies, title: "Loading Medical Supplies", location: "Accra, Ghana", date: "November 2024", category: "Keta Outreach" },
+  { id: 11, image: volunteersCoordinating, title: "Volunteers United", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
+  { id: 12, image: medicalStaffPpe, title: "Safety First", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
   { id: 13, image: waterSupplies, title: "Community Support", location: "Keta, Volta Region", date: "November 2024", category: "Community" },
-  { id: 14, image: photographerDocumenting, title: "Documenting Impact", location: "Keta, Volta Region", date: "November 2024", category: "Keta 2024" },
+  { id: 14, image: photographerDocumenting, title: "Documenting Impact", location: "Keta, Volta Region", date: "November 2024", category: "Keta Outreach" },
   { id: 15, image: accraGirls, title: "Menstrual Hygiene Day", location: "Accra Girls SHS", date: "May 2024", category: "Schools" },
   { id: 16, image: mentalHealth, title: "Mental Health Awareness", location: "O'Reilly SHS", date: "October 2024", category: "Schools" },
   { id: 17, image: outreach1, title: "Community Outreach", location: "Pupuni & Tortibo", date: "October 2024", category: "Community" },
