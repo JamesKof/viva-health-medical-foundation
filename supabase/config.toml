@@ -1,9 +1,9 @@
 project_id = "epovugflrajgaikfwdgq"
 
-[functions.paystack-webhook]
+[functions.hubtel-initiate]
 verify_jwt = false
 
-[functions.create-subscription]
+[functions.hubtel-callback]
 verify_jwt = false
 
 [functions.donation-metrics]
