@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { X, Heart, CreditCard, Smartphone, Check, Loader2, Calendar, Repeat, Building2, Copy } from "lucide-react";
+import { X, Heart, CreditCard, Smartphone, Check, Loader2, Building2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { PAYSTACK_CONFIG } from "@/config/paystack";
 import { supabase } from "@/integrations/supabase/client";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
@@ -21,13 +20,11 @@ const BANK_DETAILS = {
   accountNumber: "1234567890",
 };
 
-type DonationType = "one-time" | "recurring";
 type PaymentMethod = "card" | "momo" | "bank";
 
 export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
   const { toast } = useToast();
   const { trackEvent } = useAnalytics();
-  const [donationType, setDonationType] = useState<DonationType>("one-time");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("momo");
   const [selectedAmount, setSelectedAmount] = useState<number | null>(100);
   const [customAmount, setCustomAmount] = useState("");
@@ -35,106 +32,9 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
-
-  const handleOneTimeDonation = async () => {
-    const handler = (window as any).PaystackPop.setup({
-      key: PAYSTACK_CONFIG.publicKey,
-      email: email,
-      amount: amount! * 100,
-      currency: "GHS",
-      ref: `viva_${Date.now()}_${Math.floor(Math.random() * 1000000)}`,
-      metadata: {
-        custom_fields: [
-          {
-            display_name: "Donor Name",
-            variable_name: "donor_name",
-            value: name || "Anonymous",
-          },
-          {
-            display_name: "Donation Type",
-            variable_name: "donation_type",
-            value: "one-time",
-          },
-          {
-            display_name: "Phone Number",
-            variable_name: "phone",
-            value: phone,
-          },
-        ],
-      },
-      channels: paymentMethod === "momo" ? ["mobile_money"] : ["card"],
-      callback: (response: any) => {
-        trackEvent("donation_success_frontend", {
-          type: "one-time",
-          paymentMethod,
-          amount,
-          reference: response.reference,
-        });
-
-        toast({
-          title: "Thank You!",
-          description: `Your donation of GHS ${amount} was successful. Reference: ${response.reference}`,
-        });
-        onClose();
-        resetForm();
-      },
-      onClose: () => {
-        setIsLoading(false);
-        trackEvent("donation_flow_closed", {
-          type: "one-time",
-          paymentMethod,
-          amount,
-        });
-      },
-    });
-
-    handler.openIframe();
-  };
-
-  const handleRecurringDonation = async () => {
-    try {
-      const { data, error } = await supabase.functions.invoke("create-subscription", {
-        body: {
-          email,
-          amount,
-          name: name || "Anonymous",
-          phone,
-          interval: "monthly",
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data?.authorization_url) {
-        trackEvent("donation_subscription_initiated", {
-          type: "recurring",
-          paymentMethod,
-          amount,
-        });
-
-        window.location.href = data.authorization_url;
-      } else {
-        throw new Error("Failed to get payment URL");
-      }
-    } catch (error) {
-      console.error("Subscription error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to initialize subscription. Please try again.",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      trackEvent("donation_subscription_error", {
-        type: "recurring",
-        paymentMethod,
-        amount,
-      });
-    }
-  };
 
   const handleDonate = async () => {
     if (!amount || amount < 1) {
@@ -155,11 +55,20 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
       return;
     }
 
-    if (paymentMethod === "momo" && !phone) {
+    if ((paymentMethod === "momo" || paymentMethod === "card") && !phone) {
       toast({
         title: "Phone Required",
-        description: "Please enter your mobile money number.",
+        description: "Please enter your phone number.",
         variant: "destructive",
+      });
+      return;
+    }
+
+    if (paymentMethod === "bank") {
+      toast({
+        title: "Bank Transfer",
+        description: "Please use the bank details provided to make your transfer.",
+        variant: "default",
       });
       return;
     }
@@ -167,30 +76,54 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
     setIsLoading(true);
 
     trackEvent("donation_flow_started", {
-      donationType,
       paymentMethod,
       amount,
     });
 
     try {
-      if (donationType === "recurring") {
-        await handleRecurringDonation();
+      const clientReference = `viva_${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
+
+      const { data, error } = await supabase.functions.invoke("hubtel-initiate", {
+        body: {
+          totalAmount: amount,
+          description: "Donation to Viva Health Medical Foundation",
+          clientReference,
+          email,
+          donorName: name || "Anonymous",
+          phone,
+        },
+      });
+
+      if (error) {
+        console.error("Hubtel initiate error:", error);
+        throw error;
+      }
+
+      if (data?.checkoutUrl) {
+        trackEvent("donation_checkout_opened", {
+          paymentMethod,
+          amount,
+          clientReference,
+        });
+        setCheckoutUrl(data.checkoutUrl);
       } else {
-        await handleOneTimeDonation();
+        throw new Error("Failed to get checkout URL");
       }
     } catch (error) {
+      console.error("Payment initialization error:", error);
       toast({
         title: "Error",
         description: "Failed to initialize payment. Please try again.",
         variant: "destructive",
       });
       setIsLoading(false);
-      trackEvent("donation_flow_error", {
-        donationType,
-        paymentMethod,
-        amount,
-      });
     }
+  };
+
+  const handleCloseCheckout = () => {
+    setCheckoutUrl(null);
+    setIsLoading(false);
+    trackEvent("donation_checkout_closed", { paymentMethod, amount });
   };
 
   const resetForm = () => {
@@ -200,14 +133,52 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
     setName("");
     setPhone("");
     setIsLoading(false);
+    setCheckoutUrl(null);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
   };
 
   if (!isOpen) return null;
 
+  // Show Hubtel checkout iframe
+  if (checkoutUrl) {
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 backdrop-blur-sm animate-fade-in p-4"
+        onClick={handleCloseCheckout}
+      >
+        <div
+          className="bg-card rounded-2xl shadow-lifted w-full max-w-lg overflow-hidden animate-scale-in"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <h3 className="font-semibold text-foreground">Complete Your Donation</h3>
+            <button
+              onClick={handleCloseCheckout}
+              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              aria-label="Close checkout"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <iframe
+            src={checkoutUrl}
+            className="w-full h-[500px] border-0"
+            title="Hubtel Checkout"
+            allow="payment"
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 backdrop-blur-sm animate-fade-in p-4"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="bg-card rounded-3xl shadow-lifted max-w-lg w-full max-h-[90vh] overflow-y-auto animate-scale-in"
@@ -216,7 +187,7 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
         {/* Header */}
         <div className="relative p-6 pb-4 border-b border-border">
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary transition-colors"
             aria-label="Close modal"
           >
@@ -234,45 +205,9 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
         </div>
 
         <div className="p-6 space-y-6">
-          {/* Donation Type Toggle */}
-          <div>
-            <Label className="text-sm font-medium mb-3 block">Donation Type</Label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => setDonationType("one-time")}
-                className={`p-4 rounded-xl border-2 transition-all flex items-center justify-center gap-2 ${
-                  donationType === "one-time"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <Calendar className="w-5 h-5 text-primary" />
-                <span className="font-medium">One-Time</span>
-              </button>
-              <button
-                onClick={() => setDonationType("recurring")}
-                className={`p-4 rounded-xl border-2 transition-all flex items-center justify-center gap-2 ${
-                  donationType === "recurring"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <Repeat className="w-5 h-5 text-primary" />
-                <span className="font-medium">Monthly</span>
-              </button>
-            </div>
-            {donationType === "recurring" && (
-              <p className="text-xs text-muted-foreground mt-2 bg-secondary/50 p-2 rounded-lg">
-                Monthly donations are automatically charged on the same day each month. You can cancel anytime.
-              </p>
-            )}
-          </div>
-
           {/* Amount Selection */}
           <div>
-            <Label className="text-sm font-medium mb-3 block">
-              Select Amount (GHS) {donationType === "recurring" && <span className="text-muted-foreground font-normal">/ month</span>}
-            </Label>
+            <Label className="text-sm font-medium mb-3 block">Select Amount (GHS)</Label>
             <div className="grid grid-cols-3 gap-2 mb-3">
               {donationAmounts.map((amt) => (
                 <button
@@ -388,22 +323,22 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
           {/* Donor Information */}
           <div className="space-y-4">
             <div>
-              <Label htmlFor="name" className="text-sm font-medium mb-2 block">
+              <Label htmlFor="modal-name" className="text-sm font-medium mb-2 block">
                 Full Name (Optional)
               </Label>
               <Input
-                id="name"
+                id="modal-name"
                 placeholder="Enter your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div>
-              <Label htmlFor="email" className="text-sm font-medium mb-2 block">
+              <Label htmlFor="modal-email" className="text-sm font-medium mb-2 block">
                 Email Address *
               </Label>
               <Input
-                id="email"
+                id="modal-email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
@@ -411,21 +346,19 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
                 required
               />
             </div>
-            {paymentMethod === "momo" && (
-              <div>
-                <Label htmlFor="phone" className="text-sm font-medium mb-2 block">
-                  Mobile Money Number *
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="e.g., 0241234567"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                />
-              </div>
-            )}
+            <div>
+              <Label htmlFor="modal-phone" className="text-sm font-medium mb-2 block">
+                Phone Number *
+              </Label>
+              <Input
+                id="modal-phone"
+                type="tel"
+                placeholder="e.g., 0241234567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           {/* Summary */}
@@ -435,18 +368,6 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
                 <span className="text-muted-foreground">Donation Amount</span>
                 <span className="font-semibold">GHS {amount}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Frequency</span>
-                <span className="font-semibold capitalize">
-                  {donationType === "recurring" ? "Monthly" : "One-time"}
-                </span>
-              </div>
-              {donationType === "recurring" && (
-                <div className="flex justify-between items-center pt-2 border-t border-border">
-                  <span className="text-muted-foreground">Annual Impact</span>
-                  <span className="font-semibold text-primary">GHS {amount * 12}</span>
-                </div>
-              )}
             </div>
           )}
 
@@ -461,20 +382,21 @@ export const DonationModal = ({ isOpen, onClose }: DonationModalProps) => {
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                 Processing...
               </>
-            ) : (
+            ) : paymentMethod === "bank" ? (
               <>
                 <Check className="w-5 h-5 mr-2" />
-                {donationType === "recurring" 
-                  ? `Subscribe GHS ${amount || 0}/month` 
-                  : `Donate GHS ${amount || 0}`
-                }
+                I've Made the Transfer
+              </>
+            ) : (
+              <>
+                <Heart className="w-5 h-5 mr-2" />
+                Donate GHS {amount || 0}
               </>
             )}
           </Button>
 
           <p className="text-xs text-center text-muted-foreground">
-            Secured by Paystack. Your donation supports healthcare for underserved communities.
-            {donationType === "recurring" && " Cancel your subscription anytime."}
+            Secured by Hubtel. Your donation supports healthcare for underserved communities.
           </p>
         </div>
       </div>
