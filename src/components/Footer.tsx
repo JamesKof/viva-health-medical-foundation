@@ -141,7 +141,7 @@ export const Footer = () => {
             </div>
             <div className="flex items-center gap-2 bg-background/5 rounded-lg px-4 py-2">
               <Shield className="w-5 h-5 text-primary" />
-              <span className="text-sm text-background/80">Secure Payments via Paystack</span>
+              <span className="text-sm text-background/80">Secure Payments via Hubtel</span>
             </div>
           </div>
           <p className="text-center text-xs text-background/50 mb-6">
