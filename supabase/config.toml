@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.donation-metrics]
 verify_jwt = false
+
+[functions.verify-admin-password]
+verify_jwt = false
+
+[functions.hubtel-verify]
+verify_jwt = false
