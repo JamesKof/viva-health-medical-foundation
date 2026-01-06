@@ -56,6 +56,14 @@ Deno.serve(async (req) => {
     // Initialize Supabase client
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    // Log callback data
+    await supabase.from("payment_logs").insert({
+      payment_reference: clientReference,
+      log_type: "callback",
+      response_data: data,
+      status_code: responseCode === "0000" ? 200 : 400,
+    });
+
     // Check if payment was successful
     if (responseCode === "0000" && status === "Success") {
       console.log(`Payment successful for ${clientReference}, Amount: ${amount}, Invoice ID: ${salesInvoiceId}`);
@@ -65,6 +73,7 @@ Deno.serve(async (req) => {
         .from("donations")
         .update({
           payment_status: "paid",
+          hubtel_invoice_id: salesInvoiceId,
           updated_at: new Date().toISOString(),
         })
         .eq("payment_reference", clientReference)
