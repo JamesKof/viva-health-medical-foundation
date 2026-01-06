@@ -92,6 +92,13 @@ Deno.serve(async (req) => {
 
     console.log("Calling Hubtel API with payload:", hubtelPayload);
 
+    // Log initiate request
+    await supabase.from("payment_logs").insert({
+      payment_reference: clientReference,
+      log_type: "initiate_request",
+      request_data: hubtelPayload,
+    });
+
     // Create Basic Auth header
     const authString = btoa(`${hubtelApiId}:${hubtelApiKey}`);
 
@@ -106,6 +113,15 @@ Deno.serve(async (req) => {
 
     const hubtelResult = await hubtelResponse.json();
     console.log("Hubtel API response:", hubtelResult);
+
+    // Log initiate response
+    await supabase.from("payment_logs").insert({
+      payment_reference: clientReference,
+      log_type: "initiate_response",
+      response_data: hubtelResult,
+      status_code: hubtelResponse.status,
+      error_message: hubtelResponse.ok ? null : hubtelResult.message || hubtelResult.description,
+    });
 
     if (!hubtelResponse.ok || hubtelResult.responseCode !== "0000") {
       console.error("Hubtel API error:", hubtelResult);

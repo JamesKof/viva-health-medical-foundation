@@ -22,6 +22,7 @@ export type Database = {
           donation_type: string | null
           donor_name: string | null
           email: string
+          hubtel_invoice_id: string | null
           id: string
           payment_reference: string
           payment_status: string | null
@@ -36,6 +37,7 @@ export type Database = {
           donation_type?: string | null
           donor_name?: string | null
           email: string
+          hubtel_invoice_id?: string | null
           id?: string
           payment_reference: string
           payment_status?: string | null
@@ -50,6 +52,7 @@ export type Database = {
           donation_type?: string | null
           donor_name?: string | null
           email?: string
+          hubtel_invoice_id?: string | null
           id?: string
           payment_reference?: string
           payment_status?: string | null
@@ -190,6 +193,39 @@ export type Database = {
           id?: string
           is_active?: boolean
           subscribed_at?: string
+        }
+        Relationships: []
+      }
+      payment_logs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          log_type: string
+          payment_reference: string
+          request_data: Json | null
+          response_data: Json | null
+          status_code: number | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          log_type: string
+          payment_reference: string
+          request_data?: Json | null
+          response_data?: Json | null
+          status_code?: number | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          log_type?: string
+          payment_reference?: string
+          request_data?: Json | null
+          response_data?: Json | null
+          status_code?: number | null
         }
         Relationships: []
       }
