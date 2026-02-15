@@ -76,7 +76,10 @@ export const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-1">
-          {navItems.map((item) => (
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.to || 
+              (item.children && item.children.some((child: any) => !child.external && location.pathname === child.to));
+            return (
             <div
               key={item.label}
               className="relative"
@@ -88,9 +91,11 @@ export const Navbar = () => {
                 className={cn(
                   "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
                   isScrolled
-                    ? "text-foreground/80 hover:text-foreground hover:bg-secondary"
-                    : isHomePage
-                      ? "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                    ? isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground/80 hover:text-foreground hover:bg-secondary"
+                    : isActive
+                      ? "bg-primary-foreground/20 text-primary-foreground font-semibold"
                       : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 )}
               >
@@ -127,7 +132,8 @@ export const Navbar = () => {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* CTA Button */}
@@ -159,11 +165,18 @@ export const Navbar = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-2xl glass-strong shadow-lifted p-4 animate-scale-in max-h-[70vh] overflow-y-auto">
-          {navItems.map((item) => (
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.to;
+            return (
             <div key={item.label}>
               <Link
                 to={item.to}
-                className="block px-4 py-3 rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors font-medium"
+                className={cn(
+                  "block px-4 py-3 rounded-lg transition-colors font-medium",
+                  isActive
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground/80 hover:text-foreground hover:bg-secondary"
+                )}
                 onClick={() => {
                   if (!item.children) setIsMobileMenuOpen(false);
                 }}
@@ -198,7 +211,8 @@ export const Navbar = () => {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
           <Link
             to="/donate"
             className="block mt-4 px-4 py-3 rounded-lg bg-primary text-primary-foreground text-center font-medium"
