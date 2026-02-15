@@ -13,6 +13,7 @@ import { StickySubNav } from "@/components/StickySubNav";
 import { PageTransition } from "@/components/PageTransition";
 import { NewsletterSubscription } from "@/components/NewsletterSubscription";
 import { Heart } from "lucide-react";
+import { FloatingButtons } from "@/components/FloatingButtons";
 
 const Index = () => {
   return (
@@ -49,6 +50,7 @@ const Index = () => {
           <Heart className="w-5 h-5" />
           Donate Now
         </Link>
+        <FloatingButtons />
       </main>
     </PageTransition>
   );
