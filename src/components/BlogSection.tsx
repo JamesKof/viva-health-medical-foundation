@@ -47,7 +47,7 @@ export const BlogSection = () => {
 
         <div className="text-center mt-12">
           <Link to="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary text-primary font-medium transition-all duration-300 hover:bg-primary hover:text-primary-foreground">
-            View All Posts <ArrowRight className="w-4 h-4" />
+            Read More on Our Blog <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
