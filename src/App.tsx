@@ -16,6 +16,7 @@ import Donate from "./pages/Donate";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import AdminPayments from "./pages/AdminPayments";
+import BlogPost from "./pages/BlogPost";
 import CookieConsent from "./components/CookieConsent";
 import { FloatingButtons } from "./components/FloatingButtons";
 
