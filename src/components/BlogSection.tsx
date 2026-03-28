@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { blogPosts } from "@/data/blogPosts";
 
 export const BlogSection = () => {
-  const displayPosts = blogPosts.slice(0, 3);
+  const displayPosts = blogPosts;
 
   return (
     <section id="blog" className="py-24 bg-background">
@@ -47,7 +47,7 @@ export const BlogSection = () => {
 
         <div className="text-center mt-12">
           <Link to="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary text-primary font-medium transition-all duration-300 hover:bg-primary hover:text-primary-foreground">
-            View All Posts <ArrowRight className="w-4 h-4" />
+            Read More on Our Blog <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
