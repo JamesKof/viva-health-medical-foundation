@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { blogPosts } from "@/data/blogPosts";
 
 export const BlogSection = () => {
-  const displayPosts = blogPosts.slice(0, 3);
+  const displayPosts = blogPosts;
 
   return (
     <section id="blog" className="py-24 bg-background">
