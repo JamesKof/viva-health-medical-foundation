@@ -16,6 +16,7 @@ import Donate from "./pages/Donate";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import AdminPayments from "./pages/AdminPayments";
+import BlogPost from "./pages/BlogPost";
 import CookieConsent from "./components/CookieConsent";
 import { FloatingButtons } from "./components/FloatingButtons";
 
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/events" element={<Events />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
