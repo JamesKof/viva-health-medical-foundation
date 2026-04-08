@@ -4,6 +4,7 @@ import mentalHealth from "@/assets/blog/mental-health.png";
 import surgeonPreparing from "@/assets/keta-outreach/surgeon-preparing.jpg";
 import ajumakoHero from "@/assets/blog/ajumako-hero.jpg";
 import safeSchoolHero from "@/assets/blog/safe-school-hero.jpg";
+import podoeHero from "@/assets/blog/podoe-hero.jpg";
 
 export interface BlogPost {
   slug: string;
@@ -14,9 +15,22 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   featured: boolean;
+  hasArticle?: boolean;
 }
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "podoe-community-health-outreach",
+    image: podoeHero,
+    date: "Apr 3, 2026",
+    author: "Viva Health Media",
+    category: "Outreach",
+    title: "Podoe Community Benefits from Viva Health Medical Foundation Outreach",
+    excerpt:
+      "Viva Health Medical Foundation successfully conducted a community health outreach in Podoe, delivering free services across multiple health sectors to 514 individuals over an intensive 14-hour period.",
+    featured: true,
+    hasArticle: true,
+  },
   {
     slug: "ajumako-world-oral-health-day-outreach",
     image: ajumakoHero,
@@ -26,7 +40,8 @@ export const blogPosts: BlogPost[] = [
     title: "Ajumako Community Benefits from Major World Oral Health Day Outreach",
     excerpt:
       "In a decisive step toward addressing Ghana's growing oral health challenges, the Viva Health Medical Foundation conducted a large-scale medical outreach in Ajumako to mark World Oral Health Day, delivering critical dental care and health education to hundreds of residents.",
-    featured: true,
+    featured: false,
+    hasArticle: true,
   },
   {
     slug: "safe-school-project-bullying-cyberbullying",
@@ -38,6 +53,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "Viva Health Medical Foundation conducted impactful visits to two schools as part of its Safe School Project, addressing bullying and cyberbullying among young people through interactive sessions with psychologists.",
     featured: false,
+    hasArticle: true,
   },
   {
     slug: "outreach-pupuni-tortibo",

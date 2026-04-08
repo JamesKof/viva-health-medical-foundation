@@ -1,14 +1,28 @@
 import { useParams, Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageSEO } from "@/components/PageSEO";
 import { PageTransition } from "@/components/PageTransition";
 import { Calendar, User, ArrowLeft } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
-import { AjumakoArticle } from "@/components/blog/AjumakoArticle";
-import { SafeSchoolArticle } from "@/components/blog/SafeSchoolArticle";
 import { DefaultArticle } from "@/components/blog/DefaultArticle";
 import NotFound from "./NotFound";
+
+// Article component registry - each blog post renders independently
+const articleComponents: Record<string, React.ComponentType> = {};
+
+// Lazy load article components for better performance
+const AjumakoArticle = lazy(() => import("@/components/blog/AjumakoArticle").then(m => ({ default: m.AjumakoArticle })));
+const SafeSchoolArticle = lazy(() => import("@/components/blog/SafeSchoolArticle").then(m => ({ default: m.SafeSchoolArticle })));
+const PodoeArticle = lazy(() => import("@/components/blog/PodoeArticle").then(m => ({ default: m.PodoeArticle })));
+
+// Map slugs to their article components
+const articleRegistry: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
+  "ajumako-world-oral-health-day-outreach": AjumakoArticle,
+  "safe-school-project-bullying-cyberbullying": SafeSchoolArticle,
+  "podoe-community-health-outreach": PodoeArticle,
+};
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -16,16 +30,7 @@ const BlogPost = () => {
 
   if (!post) return <NotFound />;
 
-  const renderContent = () => {
-    switch (post.slug) {
-      case "ajumako-world-oral-health-day-outreach":
-        return <AjumakoArticle />;
-      case "safe-school-project-bullying-cyberbullying":
-        return <SafeSchoolArticle />;
-      default:
-        return <DefaultArticle post={post} />;
-    }
-  };
+  const ArticleComponent = slug ? articleRegistry[slug] : null;
 
   return (
     <PageTransition>
@@ -72,7 +77,13 @@ const BlogPost = () => {
         <article className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto prose prose-lg prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
-              {renderContent()}
+              {ArticleComponent ? (
+                <Suspense fallback={<div className="text-center py-8 text-muted-foreground">Loading article...</div>}>
+                  <ArticleComponent />
+                </Suspense>
+              ) : (
+                <DefaultArticle post={post} />
+              )}
             </div>
           </div>
         </article>
