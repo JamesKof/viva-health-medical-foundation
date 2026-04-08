@@ -4,6 +4,7 @@ import mentalHealth from "@/assets/blog/mental-health.png";
 import surgeonPreparing from "@/assets/keta-outreach/surgeon-preparing.jpg";
 import ajumakoHero from "@/assets/blog/ajumako-hero.jpg";
 import safeSchoolHero from "@/assets/blog/safe-school-hero.jpg";
+import podoeHero from "@/assets/blog/podoe-hero.jpg";
 
 export interface BlogPost {
   slug: string;
