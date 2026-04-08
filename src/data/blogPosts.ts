@@ -15,6 +15,7 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   featured: boolean;
+  hasArticle?: boolean;
 }
 
 export const blogPosts: BlogPost[] = [
