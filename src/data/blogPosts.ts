@@ -53,6 +53,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "Viva Health Medical Foundation conducted impactful visits to two schools as part of its Safe School Project, addressing bullying and cyberbullying among young people through interactive sessions with psychologists.",
     featured: false,
+    hasArticle: true,
   },
   {
     slug: "outreach-pupuni-tortibo",
