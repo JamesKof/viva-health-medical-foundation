@@ -20,6 +20,18 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "podoe-community-health-outreach",
+    image: podoeHero,
+    date: "Apr 3, 2026",
+    author: "Viva Health Media",
+    category: "Outreach",
+    title: "Podoe Community Benefits from Viva Health Medical Foundation Outreach",
+    excerpt:
+      "Viva Health Medical Foundation successfully conducted a community health outreach in Podoe, delivering free services across multiple health sectors to 514 individuals over an intensive 14-hour period.",
+    featured: true,
+    hasArticle: true,
+  },
+  {
     slug: "ajumako-world-oral-health-day-outreach",
     image: ajumakoHero,
     date: "Mar 21, 2026",
@@ -28,7 +40,8 @@ export const blogPosts: BlogPost[] = [
     title: "Ajumako Community Benefits from Major World Oral Health Day Outreach",
     excerpt:
       "In a decisive step toward addressing Ghana's growing oral health challenges, the Viva Health Medical Foundation conducted a large-scale medical outreach in Ajumako to mark World Oral Health Day, delivering critical dental care and health education to hundreds of residents.",
-    featured: true,
+    featured: false,
+    hasArticle: true,
   },
   {
     slug: "safe-school-project-bullying-cyberbullying",
